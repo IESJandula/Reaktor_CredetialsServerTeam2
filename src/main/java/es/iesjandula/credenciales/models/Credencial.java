@@ -27,4 +27,6 @@ public class Credencial
     private String url;
 
     private String password;
+
+    private Boolean funciona;
 }
