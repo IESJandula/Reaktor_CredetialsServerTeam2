@@ -30,21 +30,21 @@ public class CredencialService
         {
             String errorString = "La credencial no puede ser nula";
             log.error(errorString);
-            //throw new CredencialException(Constants.ERROR_POST_CREDENCIAL_NULA, errorString);
+            throw new CredencialException(Constants.ERROR_POST_CREDENCIAL_NULA, errorString);
         }
 
         if (credencialPassDto.getUsuario() == null || credencialPassDto.getUsuario().isBlank())
         {
             String errorString = "El usuario no puede ser nulo o vacío";
             log.error(errorString);
-            //throw new CredencialException(Constants.ERROR_POST_USUARIO_VACIO, errorString);
+            throw new CredencialException(Constants.ERROR_POST_USUARIO_VACIO, errorString);
         }
 
         if (credencialPassDto.getDescripcion() == null || credencialPassDto.getDescripcion().isBlank())
         {
             String errorString = "La descripción no puede ser nula o vacía";
             log.error(errorString);
-            //throw new CredencialException(Constants.ERROR_POST_DESCRIPCION_VACIA, errorString);
+            throw new CredencialException(Constants.ERROR_POST_DESCRIPCION_VACIA, errorString);
         }
 
         boolean ubicacionVacia = credencialPassDto.getUbicacion() == null || credencialPassDto.getUbicacion().isBlank();
@@ -54,7 +54,7 @@ public class CredencialService
         {
             String errorString = "La ubicación y la url no pueden estar vacías a la vez";
             log.error(errorString);
-            //throw new CredencialException(Constants.ERROR_POST_UBICACION_URL_VACIAS, errorString);
+            throw new CredencialException(Constants.ERROR_POST_UBICACION_URL_VACIAS, errorString);
         }
 
         String password = credencialPassDto.getPassword();
@@ -63,7 +63,7 @@ public class CredencialService
         {
             String errorString = "La contraseña no puede ser nula o vacía";
             log.error(errorString);
-            //throw new CredencialException(Constants.ERROR_POST_PASSWORD_VACIA, errorString);
+            throw new CredencialException(Constants.ERROR_POST_PASSWORD_VACIA, errorString);
         }
 
         this.validarPassword(password);
@@ -136,7 +136,7 @@ public class CredencialService
         if (errorString != null)
         {
             log.error(errorString);
-            //throw new CredencialException(Constants.ERROR_POST_PASSWORD_FORMATO, errorString);
+            throw new CredencialException(Constants.ERROR_POST_PASSWORD_FORMATO, errorString);
         }
     }
 

@@ -6,19 +6,19 @@ public class Constants
     /****************** Códigos de error ******************/
     /******************************************************/
 
-    public static final int ERROR_POST_CREDENCIAL_NULA = 400;
+    public static final String ERROR_POST_CREDENCIAL_NULA = "ERROR_POST_CREDENCIAL_NULA";
 
-    public static final int ERROR_POST_USUARIO_VACIO = 401;
+    public static final String ERROR_POST_USUARIO_VACIO = "ERROR_POST_USUARIO_VACIO";
 
-    public static final int ERROR_POST_DESCRIPCION_VACIA = 402;
+    public static final String ERROR_POST_DESCRIPCION_VACIA = "ERROR_POST_DESCRIPCION_VACIA";
 
-    public static final int ERROR_POST_UBICACION_URL_VACIAS = 403;
+    public static final String ERROR_POST_UBICACION_URL_VACIAS = "ERROR_POST_UBICACION_URL_VACIAS";
 
-    public static final int ERROR_POST_UBICACION_NO_EXISTE = 404;
+    public static final String ERROR_POST_UBICACION_NO_EXISTE = "ERROR_POST_UBICACION_NO_EXISTE";
 
-    public static final int ERROR_POST_PASSWORD_VACIA = 405;
+    public static final String ERROR_POST_PASSWORD_VACIA = "ERROR_POST_PASSWORD_VACIA";
 
-    public static final int ERROR_POST_PASSWORD_FORMATO = 406;
+    public static final String ERROR_POST_PASSWORD_FORMATO = "ERROR_POST_PASSWORD_FORMATO";
 
     public static final String ERROR_SERVIDOR = "ERROR_GENERICO_SERVIDOR";
 
