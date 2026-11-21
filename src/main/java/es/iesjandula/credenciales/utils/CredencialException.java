@@ -8,9 +8,9 @@ import java.util.Map;
 
 @Getter
 public class CredencialException extends Exception {
-    private final Integer codigo;
+    private final String codigo;
 
-    public CredencialException(Integer codigo, String message) {
+    public CredencialException(String codigo, String message) {
         super(message);
         this.codigo = codigo;
     }
@@ -18,7 +18,7 @@ public class CredencialException extends Exception {
     /**
      * Constructor con código, mensaje y causa original.
      */
-    public CredencialException(Integer codigo, String message, Throwable excepcion) {
+    public CredencialException(String codigo, String message, Throwable excepcion) {
         super(message, excepcion);
         this.codigo = codigo;
     }

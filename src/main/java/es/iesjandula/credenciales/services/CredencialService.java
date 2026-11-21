@@ -1,5 +1,6 @@
 package es.iesjandula.credenciales.services;
 
+import es.iesjandula.credenciales.dto.CredencialDto;
 import es.iesjandula.credenciales.dto.CredencialPassDto;
 import es.iesjandula.credenciales.models.Credencial;
 import es.iesjandula.credenciales.repositories.CredencialRepository;
@@ -9,10 +10,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @Service
 public class CredencialService
 {
+    /******************************************************/
+    /************** Service de Credenciales ***************/
+    /******************************************************/
+
     @Autowired
     private CredencialRepository credencialRepository;
 
@@ -22,21 +30,21 @@ public class CredencialService
         {
             String errorString = "La credencial no puede ser nula";
             log.error(errorString);
-            throw new CredencialException(Constants.ERROR_POST_CREDENCIAL_NULA, errorString);
+            //throw new CredencialException(Constants.ERROR_POST_CREDENCIAL_NULA, errorString);
         }
 
         if (credencialPassDto.getUsuario() == null || credencialPassDto.getUsuario().isBlank())
         {
             String errorString = "El usuario no puede ser nulo o vacío";
             log.error(errorString);
-            throw new CredencialException(Constants.ERROR_POST_USUARIO_VACIO, errorString);
+            //throw new CredencialException(Constants.ERROR_POST_USUARIO_VACIO, errorString);
         }
 
         if (credencialPassDto.getDescripcion() == null || credencialPassDto.getDescripcion().isBlank())
         {
             String errorString = "La descripción no puede ser nula o vacía";
             log.error(errorString);
-            throw new CredencialException(Constants.ERROR_POST_DESCRIPCION_VACIA, errorString);
+            //throw new CredencialException(Constants.ERROR_POST_DESCRIPCION_VACIA, errorString);
         }
 
         boolean ubicacionVacia = credencialPassDto.getUbicacion() == null || credencialPassDto.getUbicacion().isBlank();
@@ -46,7 +54,7 @@ public class CredencialService
         {
             String errorString = "La ubicación y la url no pueden estar vacías a la vez";
             log.error(errorString);
-            throw new CredencialException(Constants.ERROR_POST_UBICACION_URL_VACIAS, errorString);
+            //throw new CredencialException(Constants.ERROR_POST_UBICACION_URL_VACIAS, errorString);
         }
 
         String password = credencialPassDto.getPassword();
@@ -55,7 +63,7 @@ public class CredencialService
         {
             String errorString = "La contraseña no puede ser nula o vacía";
             log.error(errorString);
-            throw new CredencialException(Constants.ERROR_POST_PASSWORD_VACIA, errorString);
+            //throw new CredencialException(Constants.ERROR_POST_PASSWORD_VACIA, errorString);
         }
 
         this.validarPassword(password);
@@ -128,7 +136,81 @@ public class CredencialService
         if (errorString != null)
         {
             log.error(errorString);
-            throw new CredencialException(Constants.ERROR_POST_PASSWORD_FORMATO, errorString);
+            //throw new CredencialException(Constants.ERROR_POST_PASSWORD_FORMATO, errorString);
+        }
+    }
+
+    public List<CredencialDto> listarCredenciales ()
+    {
+        //Recojo todas las credenciales en una lista
+        List<Credencial> credenciales = this.credencialRepository.findAll();
+        //Creo una lista del dto (lo que debo devolver según el Swagger)
+        List<CredencialDto> credencialesDtos = new ArrayList<>();
+
+        for(int i = 0; i < credenciales.size(); i++)
+        {
+            //Guardo los datos de la lista de todas las credenciales y lo guardo en la lista de DTO
+            CredencialDto dto = new CredencialDto();
+
+            dto.setUsuario(credenciales.get(i).getUsuario());
+            dto.setDescripcion(credenciales.get(i).getDescripcion());
+            dto.setUbicacion(credenciales.get(i).getUbicacion());
+            dto.setUrl(credenciales.get(i).getUrl());
+
+            credencialesDtos.add(dto);
+        }
+
+        //Devolvemos la lista de dto
+        return credencialesDtos;
+    }
+
+    public void actualizarFuncionamiento(CredencialDto credencialDto, Boolean funciona) throws CredencialException
+    {
+        //Llamo el metodo para comprobar si todo es correcto
+        this.validarCredencial(credencialDto);
+
+        //Busco desde la Query creada por Usuario y ubicacion/url
+        List <Credencial> credenciales = this.credencialRepository.buscarCredencial(credencialDto.getUsuario(), credencialDto.getUbicacion(),  credencialDto.getUrl());
+        for (int i = 0; i < credenciales.size(); i++)
+        {
+            //Cambio el boolean por el valor dado
+            credenciales.get(i).setFunciona(funciona);
+        }
+
+        //Actuaalizamos en el repositorio
+        this.credencialRepository.saveAll(credenciales);
+    }
+
+    public void validarCredencial(CredencialDto credencialDto) throws CredencialException
+    {
+        //Error si el usuario es nulo o vacio
+        if(credencialDto.getUsuario() == null || credencialDto.getUsuario().isEmpty())
+        {
+            String msgError = "Usuario nulo o vacío al actualizar el funcionamiento";
+
+            log.error(msgError);
+
+            throw new CredencialException(Constants.ERROR_USUARIO_VACIO_MODIFICAR_CREDENCIAL, msgError);
+        }
+
+        //Error si la ubicacion es nula o vacia
+        if((credencialDto.getUbicacion() == null || credencialDto.getUbicacion().isEmpty()) && (credencialDto.getUrl() == null || credencialDto.getUrl().isEmpty()))
+        {
+            String msgError = "La ubicación y la url son nulas o vacías. Una de las dos debe estar rellena";
+
+            log.error(msgError);
+
+            throw new CredencialException(Constants.ERROR_UBICACION_O_URL_VACIAS_MODIFICAR_CREDENCIAL, msgError);
+        }
+
+        //Error si no existe la ubicacion dada (a través de una consulta Query creada)
+        if(this.credencialRepository.buscarCredencialPorUbicacion(credencialDto.getUbicacion()).isEmpty())
+        {
+            String msgError = "La ubicación no existe";
+
+            log.error(msgError);
+
+            throw new CredencialException(Constants.ERROR_UBICACION_NO_EXISTE_MODIFICAR_CREDENCIAL, msgError);
         }
     }
 }
