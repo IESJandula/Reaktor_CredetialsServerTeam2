@@ -1,14 +1,16 @@
 package es.iesjandula.credenciales.utils;
 
+import lombok.Getter;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CredencialError extends Exception {
-    private String codigo;
+@Getter
+public class CredencialException extends Exception {
+    private final Integer codigo;
 
-    public CredencialError(String codigo, String message) {
+    public CredencialException(Integer codigo, String message) {
         super(message);
         this.codigo = codigo;
     }
@@ -16,9 +18,9 @@ public class CredencialError extends Exception {
     /**
      * Constructor con código, mensaje y causa original.
      */
-    public CredencialError(String errorId, String message, Throwable excepcion) {
+    public CredencialException(Integer codigo, String message, Throwable excepcion) {
         super(message, excepcion);
-        this.codigo = errorId;
+        this.codigo = codigo;
     }
 
     /**
@@ -28,7 +30,7 @@ public class CredencialError extends Exception {
     public Object getBodyExceptionMessage() {
         Map<String, Object> mapBodyException = new HashMap<>();
         mapBodyException.put("codigo", this.codigo);
-        mapBodyException.put("message", this.getMessage());
+        mapBodyException.put("mensaje", this.getMessage());
 
         if (this.getCause() != null) {
             String stackTrace = ExceptionUtils.getStackTrace(this.getCause());
