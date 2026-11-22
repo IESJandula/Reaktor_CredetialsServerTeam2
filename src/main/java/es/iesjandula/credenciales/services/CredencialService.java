@@ -181,6 +181,54 @@ public class CredencialService
         this.credencialRepository.saveAll(credenciales);
     }
 
+    public String obtenerCredencialService(CredencialDto credencialDto) throws CredencialException
+    {
+        //Comprobacion del usuario nulo o vacio.
+        if(credencialDto.getUsuario().isEmpty() || credencialDto.getUsuario() == null)
+        {
+            String error= "El usuario es nulo o vacio";
+            log.error(error);
+            throw new CredencialException(Constants.ERROR_USUARIO_NULO_O_VACIO, error);
+        }
+
+        //Comprobacion si la url o la ubicacion es nula o vacia.
+        boolean url = credencialDto.getUrl().isEmpty() || credencialDto.getUrl() == null;
+        boolean ubicacion = credencialDto.getUbicacion().isEmpty() || credencialDto.getUbicacion() == null;
+
+        String credencial = "";
+        //Comprobamos si hay primero una url, si no hay comprobamos si hay ubicacion
+        if(url)
+        {
+            if(ubicacion)
+            {
+                String error = "La credencial tiene que tener una ubicacion o url";
+                log.error(error);
+                throw new CredencialException(Constants.ERROR_UBICACION_O_URL_NULO_O_VACIO, error);
+            }
+        }
+
+        //Si hay url buscamos por usuario y url
+        if(!url)
+        {
+            credencial = this.credencialRepository.buscarCredencialPorUsuarioYUrl(credencialDto.getUsuario(), credencialDto.getUrl());
+        }
+
+        //Si hay ubicacion buscamos por usuario y ubicacion
+        if(!ubicacion)
+        {
+            credencial = this.credencialRepository.buscarCredencialPorUsuarioYUbicacion(credencialDto.getUsuario(), credencialDto.getUbicacion());
+        }
+
+        //Comprobamos si la encuentra o no.
+        if(credencial == null)
+        {
+            String error= "No se ha encontrado la credencial.";
+            throw new CredencialException(Constants.ERROR_CREDENCIAL_NO_EXISTE, error);
+        }
+
+        return credencial;
+    }
+
     public void validarCredencial(CredencialDto credencialDto) throws CredencialException
     {
         //Error si el usuario es nulo o vacio

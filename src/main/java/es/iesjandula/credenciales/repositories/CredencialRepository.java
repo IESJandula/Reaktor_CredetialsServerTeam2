@@ -23,4 +23,20 @@ public interface CredencialRepository extends JpaRepository<Credencial,Long>
             WHERE c.ubicacion = :ubicacion
             """)
     List<Credencial> buscarCredencialPorUbicacion(String ubicacion);
+
+    @Query("""
+            SELECT c.password
+            FROM Credencial c
+            WHERE c.usuario = :usuario
+            AND c.url = :url
+            """)
+    String buscarCredencialPorUsuarioYUrl(String usuario, String url);
+
+    @Query("""
+            SELECT c.password
+            FROM Credencial c
+            WHERE c.usuario = :usuario
+            AND c.ubicacion = :ubicacion
+            """)
+    String buscarCredencialPorUsuarioYUbicacion(String usuario, String ubicacion);
 }
