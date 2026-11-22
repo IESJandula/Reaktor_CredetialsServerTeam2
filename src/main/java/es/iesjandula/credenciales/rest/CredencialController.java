@@ -126,8 +126,8 @@ public class CredencialController
      * @param credencialDto
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> obtenerCredencial(@RequestBody CredencialDto credencialDto)
+    @RequestMapping(value = "/password", method = RequestMethod.GET)
+    public ResponseEntity<?> obtenerPassword(@RequestBody CredencialDto credencialDto)
     {
         try
         {
@@ -135,19 +135,19 @@ public class CredencialController
         }
         catch (CredencialException errorException)
         {
-            if(errorException.getCodigo().equals(Constants.ERROR_USUARIO_NULO_O_VACIO))
+            if(errorException.getCodigo().equals(Constants.ERROR_USUARIO_NULO_O_VACIO_OBTENER))
             {
                 return ResponseEntity.status(400).body(errorException.getBodyExceptionMessage());
             }
-            else if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_O_URL_NULO_O_VACIO))
+            else if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_O_URL_NULO_O_VACIO_OBTENER))
             {
                 return ResponseEntity.status(401).body(errorException.getBodyExceptionMessage());
             }
-            else if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_NO_EXISTE))
+            else if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_NO_EXISTE_OBTENER))
             {
                 return ResponseEntity.status(402).body(errorException.getBodyExceptionMessage());
             }
-            else if (errorException.getCodigo().equals(Constants.ERROR_CREDENCIAL_DUPLICADA))
+            else if (errorException.getCodigo().equals(Constants.ERROR_CREDENCIAL_DUPLICADA_OBTENER))
             {
                 return ResponseEntity.status(403).body(errorException.getBodyExceptionMessage());
             }
@@ -158,7 +158,7 @@ public class CredencialController
         }
         catch (Exception e)
         {
-            String error="Error interno de servidor.";
+            String error = "Error interno de servidor.";
             log.error(error);
             return this.errorGenerico(error, e);
         }

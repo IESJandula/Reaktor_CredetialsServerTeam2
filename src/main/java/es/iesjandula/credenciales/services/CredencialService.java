@@ -184,38 +184,45 @@ public class CredencialService
     public String obtenerCredencialService(CredencialDto credencialDto) throws CredencialException
     {
         //Comprobacion del usuario nulo o vacio.
-        if(credencialDto.getUsuario().isEmpty() || credencialDto.getUsuario() == null)
+        if( credencialDto.getUsuario() == null || credencialDto.getUsuario().isEmpty())
         {
             String error= "El usuario es nulo o vacio";
             log.error(error);
-            throw new CredencialException(Constants.ERROR_USUARIO_NULO_O_VACIO, error);
+            throw new CredencialException(Constants.ERROR_USUARIO_NULO_O_VACIO_OBTENER, error);
         }
 
-        //Comprobacion si la url o la ubicacion es nula o vacia.
-        boolean url = credencialDto.getUrl().isEmpty() || credencialDto.getUrl() == null;
-        boolean ubicacion = credencialDto.getUbicacion().isEmpty() || credencialDto.getUbicacion() == null;
+        //Comprobacion si la url o la ubicacionVacia es nula o vacia.
+        boolean urlVacia = credencialDto.getUrl() == null  || credencialDto.getUrl().isEmpty() ;
+        boolean ubicacionVacia =  credencialDto.getUbicacion() == null || credencialDto.getUbicacion().isEmpty();
 
         String credencial = "";
-        //Comprobamos si hay primero una url, si no hay comprobamos si hay ubicacion
-        if(url)
+        //Comprobamos si hay primero una url, si no hay comprobamos si hay ubicacionVacia
+        if(urlVacia)
         {
-            if(ubicacion)
+            if(ubicacionVacia)
             {
-                String error = "La credencial tiene que tener una ubicacion o url";
+                String error = "La credencial tiene que tener una ubicacionVacia o url";
                 log.error(error);
-                throw new CredencialException(Constants.ERROR_UBICACION_O_URL_NULO_O_VACIO, error);
+                throw new CredencialException(Constants.ERROR_UBICACION_O_URL_NULO_O_VACIO_OBTENER, error);
             }
         }
 
         //Si hay url buscamos por usuario y url
-        if(!url)
+        if(!urlVacia)
         {
             credencial = this.credencialRepository.buscarCredencialPorUsuarioYUrl(credencialDto.getUsuario(), credencialDto.getUrl());
         }
 
-        //Si hay ubicacion buscamos por usuario y ubicacion
-        if(!ubicacion)
+        //Si hay ubicacionVacia buscamos por usuario y ubicacionVacia
+        if(!ubicacionVacia)
         {
+            List<Credencial> ubicacion1 = this.credencialRepository.buscarCredencialPorUbicacion(credencialDto.getUbicacion());
+            if(ubicacion1 == null)
+            {
+                String error="Ubicacion no existe.";
+                log.error(error);
+                throw new CredencialException(Constants.ERROR_UBICACION_NO_EXISTE_OBTENER, error);
+            }
             credencial = this.credencialRepository.buscarCredencialPorUsuarioYUbicacion(credencialDto.getUsuario(), credencialDto.getUbicacion());
         }
 
@@ -223,7 +230,7 @@ public class CredencialService
         if(credencial == null)
         {
             String error= "No se ha encontrado la credencial.";
-            throw new CredencialException(Constants.ERROR_CREDENCIAL_NO_EXISTE, error);
+            throw new CredencialException(Constants.ERROR_CREDENCIAL_NO_EXISTE_OBTENER, error);
         }
 
         return credencial;
