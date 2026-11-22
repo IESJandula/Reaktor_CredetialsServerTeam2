@@ -7,6 +7,7 @@ import es.iesjandula.credenciales.repositories.CredencialRepository;
 import es.iesjandula.credenciales.utils.Constants;
 import es.iesjandula.credenciales.utils.CredencialException;
 import lombok.extern.slf4j.Slf4j;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +25,12 @@ public class CredencialService
     @Autowired
     private CredencialRepository credencialRepository;
 
+    @Autowired
+    private StandardPBEStringEncryptor encryptor;
+
     public void crearCredencial(CredencialPassDto credencialPassDto) throws CredencialException
     {
+        // Si no llega nada en el body
         if (credencialPassDto == null)
         {
             String errorString = "La credencial no puede ser nula";
@@ -33,6 +38,7 @@ public class CredencialService
             throw new CredencialException(Constants.ERROR_POST_CREDENCIAL_NULA, errorString);
         }
 
+        // Primero miro el null y luego si está vacío, porque si es null el isBlank() peta
         if (credencialPassDto.getUsuario() == null || credencialPassDto.getUsuario().isBlank())
         {
             String errorString = "El usuario no puede ser nulo o vacío";
@@ -47,6 +53,7 @@ public class CredencialService
             throw new CredencialException(Constants.ERROR_POST_DESCRIPCION_VACIA, errorString);
         }
 
+        // Puede venir solo la ubicación o solo la url, pero las dos vacías no
         boolean ubicacionVacia = credencialPassDto.getUbicacion() == null || credencialPassDto.getUbicacion().isBlank();
         boolean urlVacia = credencialPassDto.getUrl() == null || credencialPassDto.getUrl().isBlank();
 
@@ -66,14 +73,16 @@ public class CredencialService
             throw new CredencialException(Constants.ERROR_POST_PASSWORD_VACIA, errorString);
         }
 
+        // Miro que la contraseña sea segura
         this.validarPassword(password);
 
+        //Creo la credencial con los datos del DTO
         Credencial credencial = new Credencial();
         credencial.setUsuario(credencialPassDto.getUsuario());
         credencial.setDescripcion(credencialPassDto.getDescripcion());
         credencial.setUbicacion(credencialPassDto.getUbicacion());
         credencial.setUrl(credencialPassDto.getUrl());
-        credencial.setPassword(password);
+        credencial.setPassword(this.encryptor.encrypt(password));
         credencial.setFunciona(true);
 
         this.credencialRepository.save(credencial);
@@ -88,6 +97,7 @@ public class CredencialService
         boolean tieneDigito = false;
         boolean tieneEspecial = false;
 
+        // Recorro la contraseña letra a letra y voy marcando qué tipos tiene
         for (int i = 0; i < password.length(); i++)
         {
             char caracter = password.charAt(i);
@@ -106,12 +116,14 @@ public class CredencialService
             }
             else
             {
+                // Si no es letra ni número, es un símbolo
                 tieneEspecial = true;
             }
         }
 
         String errorString = null;
 
+        // Compruebo las reglas una a una y me quedo con la primera que falle
         if (password.length() < Constants.PASSWORD_MIN_LENGTH)
         {
             errorString = "La contraseña debe tener al menos " + Constants.PASSWORD_MIN_LENGTH + " caracteres";
@@ -133,6 +145,7 @@ public class CredencialService
             errorString = "La contraseña debe contener al menos un signo de puntuación o símbolo";
         }
 
+        // Si ha fallado alguna, lanza el error
         if (errorString != null)
         {
             log.error(errorString);
@@ -226,6 +239,7 @@ public class CredencialService
             credencial = this.credencialRepository.buscarCredencialPorUsuarioYUbicacion(credencialDto.getUsuario(), credencialDto.getUbicacion());
         }
 
+        //return this.encryptor.decrypt(credencial.getPassword());
         return credencial.getPassword();
     }
 

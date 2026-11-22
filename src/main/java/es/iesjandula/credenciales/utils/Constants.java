@@ -6,22 +6,31 @@ public class Constants
     /****************** Códigos de error ******************/
     /******************************************************/
 
+    /** Error Code - No llega el body al crear la credencial */
     public static final String ERROR_POST_CREDENCIAL_NULA = "ERROR_POST_CREDENCIAL_NULA";
 
+    /** Error Code - Usuario nulo o vacío al crear */
     public static final String ERROR_POST_USUARIO_VACIO = "ERROR_POST_USUARIO_VACIO";
 
+    /** Error Code - Descripción nula o vacía al crear */
     public static final String ERROR_POST_DESCRIPCION_VACIA = "ERROR_POST_DESCRIPCION_VACIA";
 
+    /** Error Code - Ubicación y url vacías a la vez al crear */
     public static final String ERROR_POST_UBICACION_URL_VACIAS = "ERROR_POST_UBICACION_URL_VACIAS";
 
+    /** Error Code - La ubicación no existe al crear */
     public static final String ERROR_POST_UBICACION_NO_EXISTE = "ERROR_POST_UBICACION_NO_EXISTE";
 
+    /** Error Code - Contraseña nula o vacía al crear */
     public static final String ERROR_POST_PASSWORD_VACIA = "ERROR_POST_PASSWORD_VACIA";
 
+    /** Error Code - La contraseña no cumple el formato al crear */
     public static final String ERROR_POST_PASSWORD_FORMATO = "ERROR_POST_PASSWORD_FORMATO";
 
+    /** Error Code - Error del servidor */
     public static final String ERROR_SERVIDOR = "ERROR_GENERICO_SERVIDOR";
 
+    /** Mínimo de caracteres de la contraseña */
     public static final int PASSWORD_MIN_LENGTH = 8;
 
     /** Error Code - Relacionado con un valor de usuario vacio al modificar la credencial */

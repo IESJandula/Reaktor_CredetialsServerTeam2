@@ -24,6 +24,12 @@ public class CredencialController
     @Autowired
     private CredencialService credencialService;
 
+    /**
+     * Endpoint para crear una credencial nueva.
+     * Pongo required = false en el body para que si llega vacío salte
+     * nuestro error 400 y no el error por defecto de Spring.
+     */
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> crearCredencial(@RequestBody(required = false) CredencialPassDto credencialPassDto)
     {
@@ -34,31 +40,38 @@ public class CredencialController
         }
         catch (CredencialException exception)
         {
+            //Credencial nula
             if (exception.getCodigo().equals(Constants.ERROR_POST_CREDENCIAL_NULA))
             {
                 return ResponseEntity.status(400).body(exception.getBodyExceptionMessage());
             }
+            //Usuario vacío
             else if (exception.getCodigo().equals(Constants.ERROR_POST_USUARIO_VACIO))
             {
                 return ResponseEntity.status(401).body(exception.getBodyExceptionMessage());
             }
+            //Descripcion nula
             else if (exception.getCodigo().equals(Constants.ERROR_POST_DESCRIPCION_VACIA))
             {
                 return ResponseEntity.status(402).body(exception.getBodyExceptionMessage());
             }
+            //Url vacía
             else if (exception.getCodigo().equals(Constants.ERROR_POST_UBICACION_URL_VACIAS))
             {
                 return ResponseEntity.status(403).body(exception.getBodyExceptionMessage());
             }
+            //Ubiación no existe
             else if (exception.getCodigo().equals(Constants.ERROR_POST_UBICACION_NO_EXISTE))
             {
                 return ResponseEntity.status(404).body(exception.getBodyExceptionMessage());
             }
+            //Password vacía
             else if (exception.getCodigo().equals(Constants.ERROR_POST_PASSWORD_VACIA))
             {
                 return ResponseEntity.status(405).body(exception.getBodyExceptionMessage());
             }
 
+            // Si no es ninguno de los anteriores es que la contraseña no cumple el formato
             return ResponseEntity.status(406).body(exception.getBodyExceptionMessage());
         }
         catch (Exception exception)
