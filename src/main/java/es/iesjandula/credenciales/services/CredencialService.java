@@ -195,13 +195,13 @@ public class CredencialService
         boolean urlVacia = credencialDto.getUrl() == null  || credencialDto.getUrl().isEmpty() ;
         boolean ubicacionVacia =  credencialDto.getUbicacion() == null || credencialDto.getUbicacion().isEmpty();
 
-        String credencial = "";
-        //Comprobamos si hay primero una url, si no hay comprobamos si hay ubicacionVacia
+        Credencial credencial = null;
+        //Comprobamos si hay primero una url, si no hay comprobamos si hay ubicacion
         if(urlVacia)
         {
             if(ubicacionVacia)
             {
-                String error = "La credencial tiene que tener una ubicacionVacia o url";
+                String error = "La credencial tiene que tener una ubicacion o url";
                 log.error(error);
                 throw new CredencialException(Constants.ERROR_UBICACION_O_URL_NULO_O_VACIO_OBTENER, error);
             }
@@ -213,11 +213,11 @@ public class CredencialService
             credencial = this.credencialRepository.buscarCredencialPorUsuarioYUrl(credencialDto.getUsuario(), credencialDto.getUrl());
         }
 
-        //Si hay ubicacionVacia buscamos por usuario y ubicacionVacia
+        //Si hay ubicacion buscamos por usuario y ubicacion
         if(!ubicacionVacia)
         {
             List<Credencial> ubicacion1 = this.credencialRepository.buscarCredencialPorUbicacion(credencialDto.getUbicacion());
-            if(ubicacion1 == null)
+            if(ubicacion1.isEmpty())
             {
                 String error="Ubicacion no existe.";
                 log.error(error);
@@ -226,14 +226,56 @@ public class CredencialService
             credencial = this.credencialRepository.buscarCredencialPorUsuarioYUbicacion(credencialDto.getUsuario(), credencialDto.getUbicacion());
         }
 
-        //Comprobamos si la encuentra o no.
-        if(credencial == null)
+        return credencial.getPassword();
+    }
+
+    public void eliminarCredencial(CredencialDto credencialDto) throws CredencialException
+    {
+        //Comprobacion del usuario nulo o vacio.
+        if( credencialDto.getUsuario() == null || credencialDto.getUsuario().isEmpty())
         {
-            String error= "No se ha encontrado la credencial.";
-            throw new CredencialException(Constants.ERROR_CREDENCIAL_NO_EXISTE_OBTENER, error);
+            String error= "El usuario es nulo o vacio";
+            log.error(error);
+            throw new CredencialException(Constants.ERROR_USUARIO_NULO_O_VACIO_DELETE , error);
         }
 
-        return credencial;
+        //Comprobacion si la url o la ubicacionVacia es nula o vacia.
+        boolean urlVacia = credencialDto.getUrl() == null  || credencialDto.getUrl().isEmpty() ;
+        boolean ubicacionVacia =  credencialDto.getUbicacion() == null || credencialDto.getUbicacion().isEmpty();
+
+        Credencial credencial = null;
+        //Comprobamos si hay primero una url, si no hay comprobamos si hay ubicacion
+        if(urlVacia)
+        {
+            if(ubicacionVacia)
+            {
+                String error = "La credencial tiene que tener una ubicacion o url";
+                log.error(error);
+                throw new CredencialException(Constants.ERROR_UBICACION_O_URL_NULO_O_VACIO_DELETE, error);
+            }
+        }
+
+        //Si hay url buscamos por usuario y url
+        if(!urlVacia)
+        {
+            credencial = this.credencialRepository.buscarCredencialPorUsuarioYUrl(credencialDto.getUsuario(), credencialDto.getUrl());
+        }
+
+        //Si hay ubicacion buscamos por usuario y ubicacion
+        if(!ubicacionVacia)
+        {
+            List<Credencial> ubicacion1 = this.credencialRepository.buscarCredencialPorUbicacion(credencialDto.getUbicacion());
+            if(ubicacion1 == null)
+            {
+                String error="Ubicacion no existe.";
+                log.error(error);
+                throw new CredencialException(Constants.ERROR_UBICACION_NO_EXISTE_DELETE, error);
+            }
+            credencial = this.credencialRepository.buscarCredencialPorUsuarioYUbicacion(credencialDto.getUsuario(), credencialDto.getUbicacion());
+        }
+
+        this.credencialRepository.delete(credencial);
+        System.out.println("credenciales eliminadas");
     }
 
     public void validarCredencial(CredencialDto credencialDto) throws CredencialException

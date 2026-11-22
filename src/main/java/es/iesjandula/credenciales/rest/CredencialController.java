@@ -85,10 +85,44 @@ public class CredencialController
         }
     }
 
-    /**
-     * ENDPOINT DELETE TO DO
-     * */
-
+    @RequestMapping(value = "/password", method = RequestMethod.GET)
+    public ResponseEntity<?> deletePassword(@RequestBody CredencialDto credencialDto)
+    {
+        try
+        {
+            this.credencialService.eliminarCredencial(credencialDto);
+            return ResponseEntity.status(200).build();
+        }
+        catch (CredencialException errorException)
+        {
+            if(errorException.getCodigo().equals(Constants.ERROR_USUARIO_NULO_O_VACIO_OBTENER))
+            {
+                return ResponseEntity.status(400).body(errorException.getBodyExceptionMessage());
+            }
+            else if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_O_URL_NULO_O_VACIO_OBTENER))
+            {
+                return ResponseEntity.status(401).body(errorException.getBodyExceptionMessage());
+            }
+            else if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_NO_EXISTE_OBTENER))
+            {
+                return ResponseEntity.status(402).body(errorException.getBodyExceptionMessage());
+            }
+            else if (errorException.getCodigo().equals(Constants.ERROR_CREDENCIAL_DUPLICADA_OBTENER))
+            {
+                return ResponseEntity.status(403).body(errorException.getBodyExceptionMessage());
+            }
+            else
+            {
+                return ResponseEntity.status(404).body(errorException.getBodyExceptionMessage());
+            }
+        }
+        catch (Exception e)
+        {
+            String error = "Error interno de servidor.";
+            log.error(error);
+            return this.errorGenerico(error, e);
+        }
+    }
     /**
      * Endpoint de actualizar el funcionamiento de una credencial
      * Debe ir relleno el usuario y al menos una de las cabeceras ubicación o URL.
