@@ -6,19 +6,19 @@ public class Constants
     /****************** Códigos de error ******************/
     /******************************************************/
 
-    public static final int ERROR_POST_CREDENCIAL_NULA = 400;
+    public static final String ERROR_POST_CREDENCIAL_NULA = "ERROR_POST_CREDENCIAL_NULA";
 
-    public static final int ERROR_POST_USUARIO_VACIO = 401;
+    public static final String ERROR_POST_USUARIO_VACIO = "ERROR_POST_USUARIO_VACIO";
 
-    public static final int ERROR_POST_DESCRIPCION_VACIA = 402;
+    public static final String ERROR_POST_DESCRIPCION_VACIA = "ERROR_POST_DESCRIPCION_VACIA";
 
-    public static final int ERROR_POST_UBICACION_URL_VACIAS = 403;
+    public static final String ERROR_POST_UBICACION_URL_VACIAS = "ERROR_POST_UBICACION_URL_VACIAS";
 
-    public static final int ERROR_POST_UBICACION_NO_EXISTE = 404;
+    public static final String ERROR_POST_UBICACION_NO_EXISTE = "ERROR_POST_UBICACION_NO_EXISTE";
 
-    public static final int ERROR_POST_PASSWORD_VACIA = 405;
+    public static final String ERROR_POST_PASSWORD_VACIA = "ERROR_POST_PASSWORD_VACIA";
 
-    public static final int ERROR_POST_PASSWORD_FORMATO = 406;
+    public static final String ERROR_POST_PASSWORD_FORMATO = "ERROR_POST_PASSWORD_FORMATO";
 
     public static final String ERROR_SERVIDOR = "ERROR_GENERICO_SERVIDOR";
 
@@ -27,9 +27,23 @@ public class Constants
     /** Error Code - Relacionado con un valor de usuario vacio al modificar la credencial */
     public static final String ERROR_USUARIO_VACIO_MODIFICAR_CREDENCIAL = "ERROR_USUARIO_VACIO_MODIFICAR_CREDENCIAL";
 
+    /** Error code - Relacionado con un valor de usuario nulo o vacio a la hora de obtener contraseña */
+    public static final String ERROR_USUARIO_NULO_O_VACIO = "ERROR_USUARIO_NULO_O_VACIO";
+
     /** Error Code - Relacionado con un valor de ubicacion y/o url vacías al modificar la credencial */
     public static final String ERROR_UBICACION_O_URL_VACIAS_MODIFICAR_CREDENCIAL = "ERROR_UBICACION_O_URL_VACIAS_MODIFICAR_CREDENCIAL";
 
+    /** Error Code - Relacionado con un valor de ubicacion y/o url nulo o vacio a la hora de obtener contraseña */
+    public static final String ERROR_UBICACION_O_URL_NULO_O_VACIO = "ERROR_UBICACION_O_URL_NULO_O_VACIO";
+
     /** Error Code - Relacionado con un valor de la innexistencia de una ubicación al modificar la credencial */
     public static final String ERROR_UBICACION_NO_EXISTE_MODIFICAR_CREDENCIAL = "ERROR_UBICACION_NO_EXISTE_MODIFICAR_CREDENCIAL";
+
+    /** Error Code - Relacionado con un valor de la innexistencia de una credencial al obtener */
+    public static final String ERROR_CREDENCIAL_NO_EXISTE = "ERROR_CREDENCIAL_NO_EXISTE";
+
+    /** Error Code - Relacionado con un valor de la innexistencia de una ubicacion al obtener */
+    public static final String ERROR_UBICACION_NO_EXISTE = "ERROR_UBICACION_NO_EXISTE";
+
+    public static final String ERROR_CREDENCIAL_DUPLICADA = "ERROR_CREDENCIAL_DUPLICADA";
 }

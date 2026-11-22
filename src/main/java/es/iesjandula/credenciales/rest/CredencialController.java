@@ -122,6 +122,48 @@ public class CredencialController
     }
 
     /**
+     *
+     * @param credencialDto
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<?> obtenerCredencial(@RequestBody CredencialDto credencialDto)
+    {
+        try
+        {
+            return ResponseEntity.status(200).body(this.credencialService.obtenerCredencialService(credencialDto));
+        }
+        catch (CredencialException errorException)
+        {
+            if(errorException.getCodigo().equals(Constants.ERROR_USUARIO_NULO_O_VACIO))
+            {
+                return ResponseEntity.status(400).body(errorException.getBodyExceptionMessage());
+            }
+            else if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_O_URL_NULO_O_VACIO))
+            {
+                return ResponseEntity.status(401).body(errorException.getBodyExceptionMessage());
+            }
+            else if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_NO_EXISTE))
+            {
+                return ResponseEntity.status(402).body(errorException.getBodyExceptionMessage());
+            }
+            else if (errorException.getCodigo().equals(Constants.ERROR_CREDENCIAL_DUPLICADA))
+            {
+                return ResponseEntity.status(403).body(errorException.getBodyExceptionMessage());
+            }
+            else
+            {
+                return ResponseEntity.status(404).body(errorException.getBodyExceptionMessage());
+            }
+        }
+        catch (Exception e)
+        {
+            String error="Error interno de servidor.";
+            log.error(error);
+            return this.errorGenerico(error, e);
+        }
+    }
+    /**
      * Metodo para los errores del servidor
      * */
     private ResponseEntity<?> errorGenerico(String errorString, Exception exception)
