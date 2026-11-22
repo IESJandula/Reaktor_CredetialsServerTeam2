@@ -58,7 +58,7 @@ public class Constants
     public static final String ERROR_UBICACION_O_URL_NULO_O_VACIO_DELETE = "ERROR_UBICACION_O_URL_NULO_O_VACIO_DELETE";
 
     /** Error code - Relacionado con un valor de usuario nulo o vacio a la hora de obtener contraseña */
-    public static final String ERROR_USUARIO_NULO_O_VACIO_DELETE = "ERROR_USUARIO_NULO_O_VACIO_OBTENER";
+    public static final String ERROR_USUARIO_NULO_O_VACIO_DELETE = "ERROR_USUARIO_NULO_O_VACIO_DELETE";
 
     /** Error Code - Relacionado con un valor de la innexistencia de una ubicacion al obtener */
     public static final String ERROR_UBICACION_NO_EXISTE_DELETE = "ERROR_UBICACION_NO_EXISTE_DELETE";

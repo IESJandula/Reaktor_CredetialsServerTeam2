@@ -98,7 +98,7 @@ public class CredencialController
         }
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping(method = RequestMethod.DELETE)
     public ResponseEntity<?> deletePassword(@RequestBody CredencialDto credencialDto)
     {
         try
@@ -108,22 +108,23 @@ public class CredencialController
         }
         catch (CredencialException errorException)
         {
-            if(errorException.getCodigo().equals(Constants.ERROR_USUARIO_NULO_O_VACIO_DELETE))
+            if (errorException.getCodigo().equals(Constants.ERROR_USUARIO_NULO_O_VACIO_DELETE))
             {
                 return ResponseEntity.status(400).body(errorException.getBodyExceptionMessage());
             }
-            else if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_O_URL_NULO_O_VACIO_DELETE))
+            if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_O_URL_NULO_O_VACIO_DELETE))
             {
                 return ResponseEntity.status(401).body(errorException.getBodyExceptionMessage());
             }
-            else if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_NO_EXISTE_DELETE))
+            if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_NO_EXISTE_DELETE))
             {
                 return ResponseEntity.status(402).body(errorException.getBodyExceptionMessage());
             }
-            else
+            if (errorException.getCodigo().equals(Constants.ERROR_CREDENCIAL_DUPLICADA_OBTENER))
             {
                 return ResponseEntity.status(403).body(errorException.getBodyExceptionMessage());
             }
+            return ResponseEntity.badRequest().body(errorException.getBodyExceptionMessage());
         }
         catch (Exception e)
         {

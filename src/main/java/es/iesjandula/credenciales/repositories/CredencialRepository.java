@@ -31,7 +31,7 @@ public interface CredencialRepository extends JpaRepository<Credencial,Long>
             WHERE c.usuario = :usuario
             AND c.url = :url
             """)
-    Credencial buscarCredencialPorUsuarioYUrl(String usuario, String url);
+    List<Credencial> buscarCredencialPorUsuarioYUrl(String usuario, String url);
 
     @Query("""
             SELECT c
@@ -39,5 +39,5 @@ public interface CredencialRepository extends JpaRepository<Credencial,Long>
             WHERE c.usuario = :usuario
             AND c.ubicacion = :ubicacion
             """)
-    Credencial buscarCredencialPorUsuarioYUbicacion(String usuario, String ubicacion);
+    List<Credencial> buscarCredencialPorUsuarioYUbicacion(String usuario, String ubicacion);
 }

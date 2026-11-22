@@ -208,7 +208,7 @@ public class CredencialService
         boolean urlVacia = credencialDto.getUrl() == null  || credencialDto.getUrl().isEmpty() ;
         boolean ubicacionVacia =  credencialDto.getUbicacion() == null || credencialDto.getUbicacion().isEmpty();
 
-        Credencial credencial = null;
+        List<Credencial> credencial = null;
         //Comprobamos si hay primero una url, si no hay comprobamos si hay ubicacion
         if(urlVacia)
         {
@@ -239,7 +239,15 @@ public class CredencialService
             credencial = this.credencialRepository.buscarCredencialPorUsuarioYUbicacion(credencialDto.getUsuario(), credencialDto.getUbicacion());
         }
 
-        return this.encryptor.decrypt(credencial.getPassword());
+        if(credencial.size()>1)
+        {
+            String error= "la búsqueda coincide con más de una credencial.";
+            log.error(error);
+            throw new CredencialException(Constants.ERROR_CREDENCIAL_DUPLICADA_OBTENER, error);
+        }
+
+
+        return this.encryptor.decrypt(credencial.getFirst().getPassword());
     }
 
     public void eliminarCredencial(CredencialDto credencialDto) throws CredencialException
@@ -255,7 +263,7 @@ public class CredencialService
         boolean urlVacia = credencialDto.getUrl() == null  || credencialDto.getUrl().isEmpty() ;
         boolean ubicacionVacia =  credencialDto.getUbicacion() == null || credencialDto.getUbicacion().isEmpty();
 
-        Credencial credencial = null;
+        List<Credencial> credencial = null;
         //Comprobamos si hay primero una url, si no hay comprobamos si hay ubicacion
         if(urlVacia)
         {
@@ -277,7 +285,7 @@ public class CredencialService
         if(!ubicacionVacia)
         {
             List<Credencial> ubicacion1 = this.credencialRepository.buscarCredencialPorUbicacion(credencialDto.getUbicacion());
-            if(ubicacion1 == null)
+            if(ubicacion1.isEmpty())
             {
                 String error="Ubicacion no existe.";
                 log.error(error);
@@ -286,8 +294,8 @@ public class CredencialService
             credencial = this.credencialRepository.buscarCredencialPorUsuarioYUbicacion(credencialDto.getUsuario(), credencialDto.getUbicacion());
         }
 
-        this.credencialRepository.delete(credencial);
-        System.out.println("credenciales eliminadas");
+        this.credencialRepository.deleteAll(credencial);
+        log.info("credenciales eliminadas");
     }
 
     public void validarCredencial(CredencialDto credencialDto) throws CredencialException
