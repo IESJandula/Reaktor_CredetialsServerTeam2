@@ -85,7 +85,7 @@ public class CredencialController
         }
     }
 
-    @RequestMapping(value = "/password", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public ResponseEntity<?> deletePassword(@RequestBody CredencialDto credencialDto)
     {
         try
