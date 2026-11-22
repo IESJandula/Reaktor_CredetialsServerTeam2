@@ -55,7 +55,7 @@ public class CredencialController
             {
                 return ResponseEntity.status(402).body(exception.getBodyExceptionMessage());
             }
-            //Url vacía
+            //Url y ubicación vacía
             else if (exception.getCodigo().equals(Constants.ERROR_POST_UBICACION_URL_VACIAS))
             {
                 return ResponseEntity.status(403).body(exception.getBodyExceptionMessage());
