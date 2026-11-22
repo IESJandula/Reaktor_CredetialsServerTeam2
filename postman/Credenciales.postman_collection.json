@@ -1,0 +1,152 @@
+{
+  "info": {
+    "_postman_id": "06e4e89b-74ce-478a-839d-3f78efdb177c",
+    "name": "Credenciales",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56448187",
+    "_collection_link": "https://go.postman.co/collection/56448187-06e4e89b-74ce-478a-839d-3f78efdb177c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Crear Credencial",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"usuario\": \"ana\",\r\n  \"descripcion\": \"Cuenta de Moodle\",\r\n  \"ubicacion\": \"aula1\",\r\n  \"url\": \"moodle.es\",\r\n  \"password\": \"Abcd1234!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/credentials/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "credentials",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar Credenciales",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/credentials/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "credentials",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Eliminar Credenciales",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"usuario\": \"ana\",\r\n  \"ubicacion\": \"aula1\",\r\n  \"url\": \"moodle.es\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/credentials/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "credentials",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar Funcionamiento",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "funciona",
+            "value": "false"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"usuario\": \"ana\",\r\n  \"url\": \"moodle.es\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/credentials/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "credentials",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener Password",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"usuario\": \"ana\",\r\n  \"ubicacion\": \"aula1\",\r\n  \"url\": \"moodle.es\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/credentials/password",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "credentials",
+            "password"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
