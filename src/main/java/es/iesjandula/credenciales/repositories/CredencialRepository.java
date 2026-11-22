@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+
 public interface CredencialRepository extends JpaRepository<Credencial,Long>
 {
     //Busqueda de Credencial por usuario y ubicacion y/o url

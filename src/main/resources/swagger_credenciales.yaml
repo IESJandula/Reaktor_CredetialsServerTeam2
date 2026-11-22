@@ -55,7 +55,8 @@ paths:
             $ref: '#/definitions/CredencialError'
         500:
           description: error interno del servidor
-          $ref: '#/definitions/CredencialError'
+          schema:
+            $ref: '#/definitions/CredencialError'
     get:
       operationId: listarCredenciales
       description: devuelve los datos de las credenciales. Si no hay registros, el array se devuelve vacío
@@ -68,7 +69,8 @@ paths:
               $ref: '#/definitions/CredencialDTO'
         500:
           description: error interno del servidor
-          $ref: '#/definitions/CredencialError'
+          schema:
+            $ref: '#/definitions/CredencialError'
     delete:
       operationId: eliminarCredenciales
       description: debe ir relleno el usuario y al menos una de las cabeceras ubicación o URL. Elimina todos los registros encontrados
@@ -96,7 +98,8 @@ paths:
             $ref: '#/definitions/CredencialError'
         500:
           description: error interno del servidor
-          $ref: '#/definitions/CredencialError'
+          schema:
+            $ref: '#/definitions/CredencialError'
     put:
       operationId: actualizarFuncionamiento
       description: debe ir relleno el usuario y al menos una de las cabeceras ubicación o URL. Actualiza el campo funciona de todos los registros encontrados
@@ -129,7 +132,8 @@ paths:
             $ref: '#/definitions/CredencialError'
         500:
           description: error interno del servidor
-          $ref: '#/definitions/CredencialError'
+          schema:
+            $ref: '#/definitions/CredencialError'
   /password:
     get:
       operationId: obtenerPassword
@@ -164,7 +168,8 @@ paths:
             $ref: '#/definitions/CredencialError'
         500:
           description: error interno del servidor
-          $ref: '#/definitions/CredencialError'
+          schema:
+            $ref: '#/definitions/CredencialError'
 
 definitions:
   CredencialDTO:
