@@ -95,25 +95,21 @@ public class CredencialController
         }
         catch (CredencialException errorException)
         {
-            if(errorException.getCodigo().equals(Constants.ERROR_USUARIO_NULO_O_VACIO_OBTENER))
+            if(errorException.getCodigo().equals(Constants.ERROR_USUARIO_NULO_O_VACIO_DELETE))
             {
                 return ResponseEntity.status(400).body(errorException.getBodyExceptionMessage());
             }
-            else if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_O_URL_NULO_O_VACIO_OBTENER))
+            else if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_O_URL_NULO_O_VACIO_DELETE))
             {
                 return ResponseEntity.status(401).body(errorException.getBodyExceptionMessage());
             }
-            else if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_NO_EXISTE_OBTENER))
+            else if (errorException.getCodigo().equals(Constants.ERROR_UBICACION_NO_EXISTE_DELETE))
             {
                 return ResponseEntity.status(402).body(errorException.getBodyExceptionMessage());
             }
-            else if (errorException.getCodigo().equals(Constants.ERROR_CREDENCIAL_DUPLICADA_OBTENER))
-            {
-                return ResponseEntity.status(403).body(errorException.getBodyExceptionMessage());
-            }
             else
             {
-                return ResponseEntity.status(404).body(errorException.getBodyExceptionMessage());
+                return ResponseEntity.status(403).body(errorException.getBodyExceptionMessage());
             }
         }
         catch (Exception e)
