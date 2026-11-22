@@ -24,7 +24,7 @@ public class CredencialController
     @Autowired
     private CredencialService credencialService;
 
-    @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> crearCredencial(@RequestBody(required = false) CredencialPassDto credencialPassDto)
     {
         try
