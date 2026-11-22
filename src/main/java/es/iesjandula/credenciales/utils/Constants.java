@@ -48,12 +48,10 @@ public class Constants
     /** Error code - Relacionado con un valor de usuario nulo o vacio a la hora de obtener contraseña */
     public static final String ERROR_USUARIO_NULO_O_VACIO_OBTENER = "ERROR_USUARIO_NULO_O_VACIO_OBTENER";
 
-    /** Error Code - Relacionado con un valor de la innexistencia de una credencial al obtener */
-    public static final String ERROR_CREDENCIAL_NO_EXISTE_OBTENER = "ERROR_CREDENCIAL_NO_EXISTE_OBTENER";
-
-    /** Error Code - Relacionado con un valor de la innexistencia de una ubicacion al obtener */
+    /** Error Code - Relacionado con un valor de la innexistencia de una ubicacion al obtener contraseña*/
     public static final String ERROR_UBICACION_NO_EXISTE_OBTENER = "ERROR_UBICACION_NO_EXISTE_OBTENER";
 
+    /** Error Code - Relacionado con un valor de la credencial duplicada al obtener contraseña*/
     public static final String ERROR_CREDENCIAL_DUPLICADA_OBTENER = "ERROR_CREDENCIAL_DUPLICADA_OBTENER";
 
     /** Error Code - Relacionado con un valor de ubicacion y/o url nulo o vacio a la hora de borrar contraseña */

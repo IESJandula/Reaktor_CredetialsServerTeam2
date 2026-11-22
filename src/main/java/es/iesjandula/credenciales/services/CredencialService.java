@@ -239,8 +239,7 @@ public class CredencialService
             credencial = this.credencialRepository.buscarCredencialPorUsuarioYUbicacion(credencialDto.getUsuario(), credencialDto.getUbicacion());
         }
 
-        //return this.encryptor.decrypt(credencial.getPassword());
-        return credencial.getPassword();
+        return this.encryptor.decrypt(credencial.getPassword());
     }
 
     public void eliminarCredencial(CredencialDto credencialDto) throws CredencialException
@@ -252,7 +251,6 @@ public class CredencialService
             log.error(error);
             throw new CredencialException(Constants.ERROR_USUARIO_NULO_O_VACIO_DELETE , error);
         }
-
         //Comprobacion si la url o la ubicacionVacia es nula o vacia.
         boolean urlVacia = credencialDto.getUrl() == null  || credencialDto.getUrl().isEmpty() ;
         boolean ubicacionVacia =  credencialDto.getUbicacion() == null || credencialDto.getUbicacion().isEmpty();
