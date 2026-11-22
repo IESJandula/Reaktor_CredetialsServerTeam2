@@ -59,7 +59,7 @@
 			<artifactId>commons-lang3</artifactId> <!-- añadir para
             getStackTrace-->
 		</dependency>
-		<!-- Jasypt base para cifrar la contraseña de MySQL.
+		<!-- Jasypt base para cifrar la contraseña de credenciales.
      No usamos jasypt-spring-boot-starter porque no es compatible con Spring Boot 4.2 -->
 		<dependency>
 			<groupId>org.jasypt</groupId>
